@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PhoenixToolbar">
+        <attr name="rightButtonIcon" format="reference"/>
+        <attr name="LeftButtonIcon" format="reference"/>
+        <attr name="rightButtonText" format="string"/>
+        <attr name="isShowSearchView" format="boolean"/>
+    </declare-styleable>
+
+
+</resources>
