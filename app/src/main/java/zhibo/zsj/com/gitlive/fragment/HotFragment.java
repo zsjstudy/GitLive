@@ -19,8 +19,4 @@ public class HotFragment extends BaseFragment{
         return view;
     }
 
-    @Override
-    public void init() {
-
-    }
 }

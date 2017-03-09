@@ -1,89 +1,74 @@
 package zhibo.zsj.com.gitlive.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import zhibo.zsj.com.gitlive.R;
-import zhibo.zsj.com.gitlive.adapter.CustomPageAdapter;
 
 /**
  * Created by Administrator on 2017/3/8.
  */
-public class MainFragment extends BaseFragment {
+public class MainFragment extends Fragment {
 
     @BindView(R.id.tablayout)
     TabLayout tabLayout;
     @BindView(R.id.viewpage)
     ViewPager viewPage;
-    ArrayList<View> mViewList;//保存viewpage
-    ArrayList<String> mTabList;//保存标题
+    public static MainFragment newInstance() {
+        MainFragment fragment = new MainFragment();
+        return fragment;
+    }
 
-    LayoutInflater mLayoutInflater;
-    View jingxuan;
-    View hot;
+    private FragmentPagerAdapter adapter;
+    private List<Fragment> mFragments = new ArrayList<>();
 
     @Override
-    public View createView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.mainfragment, container,false);
         ButterKnife.bind(this,view);
+        initView();
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        init();
-        initView();
-    }
     private void initView() {
-        //添加viewpage
-        jingxuan = mLayoutInflater.inflate(R.layout.jingxuanfragment,null);
-        hot = mLayoutInflater.inflate(R.layout.hotfragment,null);
-        mViewList.add(jingxuan);
-        mViewList.add(hot);
-        //添加标题
-        mTabList.add("精选");
-        mTabList.add("发现");
 
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);//设置标签的模式,默认系统模式
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        JingXuanFragment jingXuanFragment = new JingXuanFragment();
+        HotFragment hot = new HotFragment();
+
+        mFragments.add(jingXuanFragment);
+        mFragments.add(hot);
+
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        adapter = new FragmentPagerAdapter(fm) {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPage.setCurrentItem(tab.getPosition());//点击哪个就跳转哪个界面
+            public Fragment getItem(int position) {
+                return mFragments.get(position);
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                tabLayout.addTab(tabLayout.newTab().setText(mTabList.get(0)));
-                tabLayout.addTab(tabLayout.newTab().setText(mTabList.get(1)));
+            public int getCount() {
+                return mFragments.size();
             }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        CustomPageAdapter myAdapter = new CustomPageAdapter(mViewList, mTabList);
-        viewPage.setAdapter(myAdapter);
+        };
+        viewPage.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPage);
-        tabLayout.setTabsFromPagerAdapter(myAdapter);
+        viewPage.setOffscreenPageLimit(0);
+        tabLayout.getTabAt(0).setText("精选");
+        tabLayout.getTabAt(1).setText("热门");
 
-    }
-
-    @Override
-    public void init() {
-        mTabList = new ArrayList<String>();
-        mViewList = new ArrayList<View>();
-        mLayoutInflater = LayoutInflater.from(getActivity());
     }
 }

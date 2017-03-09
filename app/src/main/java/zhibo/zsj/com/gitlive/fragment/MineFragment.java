@@ -11,14 +11,18 @@ import zhibo.zsj.com.gitlive.R;
  * Created by Administrator on 2017/3/8.
  */
 public class MineFragment extends BaseFragment {
+
+
+    public static MineFragment newInstance() {
+        MineFragment fragment = new MineFragment();
+        return fragment;
+    }
+
     @Override
     public View createView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.minefragment, container,false);
         return view;
     }
 
-    @Override
-    public void init() {
 
-    }
 }

@@ -18,16 +18,9 @@ public abstract class BaseFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = createView(inflater,container,savedInstanceState);
         ButterKnife.bind(this,view);
-        initToolbar();
-        init();
         return view;
     }
 
-    private void initToolbar() {
 
-    }
-
-    public abstract View createView(LayoutInflater layoutInflater
-            ,ViewGroup viewGroup,Bundle savedInstanceState);
-    public abstract void init();
+    public abstract View createView(LayoutInflater layoutInflater,ViewGroup viewGroup,Bundle savedInstanceState);
 }
